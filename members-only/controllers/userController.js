@@ -23,12 +23,17 @@ exports.user_signup_post = [
         .trim()
         .isLength({min:1})
         .escape(),
-    (req, res, next) => {
+    
+    async (req, res, next) => {
+        
+        
+        const hashedPassword =  await bcrypt.hash(req.body.password, 10);
+
         const errors = validationResult(req);
 
         const user = new User({
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             email: req.body.email,
             membership: false,
             admin_status: false,
@@ -46,6 +51,8 @@ exports.user_signup_post = [
                 res.redirect('/');
             })
         }
+        
+    
     }
 
 ]
