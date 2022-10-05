@@ -3,6 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema
+
+const mongoDb = "mongodb+srv://tcheng:mongo1@cluster0.7kikxjq.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "mongo connection error"));
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,6 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

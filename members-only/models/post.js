@@ -3,8 +3,10 @@ const Schema = mongoose.schema;
 
 const PostSchema = new Schema(
     {
-        login: {type: String},
-        password: {type: String},
+        title: {type: String},
+        timestamp: {type: String},
+        text: {type: String},
+        author: {type: String}, //This will be user's username
         
     }
 )
