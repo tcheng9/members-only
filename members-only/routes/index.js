@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+const user_controller = require('../controllers/userController');
+const post_controller = require('../controllers/postController');
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -12,9 +16,7 @@ router.get('/signup', function(req, res,next){
 });
 
 //POST request for sign up page
-router.post('/signup', function(req, res, next){
-  res.send("test for signup post");
-});
+router.post('/signup', user_controller.user_signup_post);
 
 //GET request for login page
 router.get('/login', function(req, res, next){
