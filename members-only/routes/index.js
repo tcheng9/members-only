@@ -11,7 +11,10 @@ const post_controller = require('../controllers/postController');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { 
+    title: "Log in Page",
+    user: req.user
+  });
 });
 
 //GET request for sign up page
@@ -29,6 +32,8 @@ router.get('/login', function(req, res, next){
 
 //POST request for login page
 router.post('/login', user_controller.user_login_post);
+
+
 
 //GET request for adding membership status page
 router.get('/membership', function(req, res, next){

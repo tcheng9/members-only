@@ -5,11 +5,8 @@ const async = require("async");
 const bcrypt = require("bcrypt");
 const { deleteOne } = require('../models/user');
 const passport = require('passport');
+const LocalStrategy = require("passport-local").Strategy;
 
-//GET request on signup form
-exports.user_signup_get = function(req, res, next){
-
-}
 
 //Setting up passport
 passport.use(
@@ -21,24 +18,35 @@ passport.use(
         if (!user) {
           return done(null, false, { message: "Incorrect username" });
         }
-        if (user.password !== password) {
-          return done(null, false, { message: "Incorrect password" });
-        }
+        bcrypt.compare(password, user.password, (err, res) => {
+          if (res) {
+            // passwords match! log user in
+            return done(null, user)
+          } else {
+            // passwords do not match!
+            return done(null, false, { message: "Incorrect password" })
+          }
+        })
         return done(null, user);
       });
     })
-  );
+);
   
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
   });
+});
   
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
-  });
-  
+
+// //GET request on signup form
+// exports.user_signup_get = function(req, res, next){
+//   res.render('index', {user: req.user});
+// }
 
 //POST request on signup form
 exports.user_signup_post = [
@@ -86,17 +94,67 @@ exports.user_signup_post = [
 
 ]
 
+// exports.user_login_post = function(req, res, next){
+//   res.send("test");
+// }
 
 //POST request for login form
 
-exports.user_login_post = [
-    async (req, res, next) => {
-        passport.authenticate("local", {
-            successRedirect: "/",
-            failureRedirect: "/"
-        });
-    }
-]
+exports.user_login_post = async function(req, res, next){
+  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true });
+  res.redirect('/');
+  // try{
+  //   const username = req.body.username;
+  //   const password = req.body.password;
+    
+  //   const item = User.find(u => u.username === username);
+
+  //   if (item){
+  //     passport.authenticate("local", (req, res, function(){
+  //       res.redirect('/');
+  //     }))
+  //   } else {
+  //     res.redirect('/signup');
+  //   }
+  // } catch (err) {
+  //   res.send(err);
+  // }
+};
+
+// app.post('/login/password',
+// passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+// function(req, res) {
+//   res.redirect('/~' + req.user.username);
+// });
+  
+
+  // if (!req.body.username) {
+  //   res.json({ success: false, message: "Username was not given" })
+  // }
+  // else if (!req.body.password) {
+  //     res.json({ success: false, message: "Password was not given" })
+  // }
+  // else {
+  //     passport.authenticate("local", function (err, user, info) {
+  //       successRedirect: "/",
+  //       failureRedirect: "/"  
+  //       // if (err) {
+          //     res.json({ success: false, message: err });
+          // }
+          // else {
+          //     if (!user) {
+          //         res.json({ success: false, message: "username or password incorrect" });
+          //     }
+          //     else {
+          //         const token = jwt.sign({ userId: user._id, username: user.username }, secretkey, { expiresIn: "24h" });
+          //         res.json({ success: true, message: "Authentication successful", token: token });
+          //     }
+          // }
+//       });
+//   }
+// }
+
+
 
 // exports.user_login_post = [
 //     body('username', 'username cannot be empty')

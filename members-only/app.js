@@ -19,7 +19,6 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var app = express();
 
 //Setting up passport
 passport.use(
@@ -31,23 +30,32 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      }
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          // passwords match! log user in
+          return done(null, user)
+        } else {
+          // passwords do not match!
+          return done(null, false, { message: "Incorrect password" })
+        }
+      })
       return done(null, user);
     });
   })
 );
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+User.findById(id, function(err, user) {
+  done(err, user);
 });
+});
+
+var app = express();
+
 
 
 // view engine setup
@@ -85,12 +93,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/"
-  })
-);
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 module.exports = app;
