@@ -6,7 +6,7 @@ var passport = require("passport");
 const user_controller = require('../controllers/userController');
 const post_controller = require('../controllers/postController');
 
-
+const User = require('../models/user');
 
 
 /* GET home page. */
@@ -32,6 +32,13 @@ router.get('/login', function(req, res, next){
 
 //POST request for login page
 router.post('/login', user_controller.user_login_post);
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
 
 
 

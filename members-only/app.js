@@ -8,8 +8,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema
+const bcrypt = require("bcrypt");
 require("dotenv").config();
-
+const User = require('./models/user');
 const mongoPw = process.env.MONGOPW;
 const mongoDb = "mongodb+srv://tcheng:" + mongoPw + "@cluster0.7kikxjq.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
@@ -19,6 +20,7 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var app = express();
 
 //Setting up passport
 passport.use(
@@ -30,15 +32,18 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
+      
       bcrypt.compare(password, user.password, (err, res) => {
-        if (res) {
-          // passwords match! log user in
-          return done(null, user)
-        } else {
-          // passwords do not match!
-          return done(null, false, { message: "Incorrect password" })
-        }
+      if (res) {
+        // passwords match! log user in
+        return done(null, user)
+      } else {
+        // passwords do not match!
+        return done(null, false, { message: "Incorrect password" })
+      }
       })
+      
+      
       return done(null, user);
     });
   })
@@ -54,7 +59,6 @@ User.findById(id, function(err, user) {
 });
 });
 
-var app = express();
 
 
 

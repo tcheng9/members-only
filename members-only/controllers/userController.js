@@ -8,6 +8,16 @@ const passport = require('passport');
 const LocalStrategy = require("passport-local").Strategy;
 
 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+  
 //Setting up passport
 passport.use(
     new LocalStrategy((username, password, done) => {
@@ -27,22 +37,12 @@ passport.use(
             return done(null, false, { message: "Incorrect password" })
           }
         })
+        
         return done(null, user);
       });
     })
 );
   
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-  
-
 // //GET request on signup form
 // exports.user_signup_get = function(req, res, next){
 //   res.render('index', {user: req.user});
@@ -100,9 +100,27 @@ exports.user_signup_post = [
 
 //POST request for login form
 
-exports.user_login_post = async function(req, res, next){
-  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true });
-  res.redirect('/');
+exports.user_login_post = [
+  body('password', 'password cannot be empty')
+    .trim()
+    .isLength({min:1})
+    .escape(),
+    (req, res, next) => {
+      const errors = validationResult(req);
+      
+      if(!errors.isEmpty()){
+        return res.render("login");
+      }
+       
+
+      // if(errors.isEmpty()){
+      //   return res.status(400).send({errors:errors.array()});
+      // }
+      
+   
+      next();
+    },
+];
   // try{
   //   const username = req.body.username;
   //   const password = req.body.password;
@@ -119,7 +137,7 @@ exports.user_login_post = async function(req, res, next){
   // } catch (err) {
   //   res.send(err);
   // }
-};
+// };
 
 // app.post('/login/password',
 // passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
