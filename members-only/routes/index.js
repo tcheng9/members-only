@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var passport = require("passport");
 
+//Getting model controllers
 const user_controller = require('../controllers/userController');
 const post_controller = require('../controllers/postController');
+
+
 
 
 /* GET home page. */
