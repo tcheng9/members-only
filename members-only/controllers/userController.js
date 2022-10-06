@@ -34,6 +34,7 @@ passport.use(
             return done(null, user)
           } else {
             // passwords do not match!
+
             return done(null, false, { message: "Incorrect password" })
           }
         })
@@ -111,13 +112,6 @@ exports.user_login_post = [
       if(!errors.isEmpty()){
         return res.render("login");
       }
-       
-
-      // if(errors.isEmpty()){
-      //   return res.status(400).send({errors:errors.array()});
-      // }
-      
-   
       next();
     },
 ];
