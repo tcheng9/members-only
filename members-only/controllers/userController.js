@@ -46,7 +46,7 @@ exports.user_signup_post = [
         });
 
         if (!errors.isEmpty()){
-            res.render('index', {
+            return res.render('index', {
                 title: "You have been logged in successfully",
                 user,
                 errors: errors.array(),
@@ -54,7 +54,7 @@ exports.user_signup_post = [
         } else {
             user.save((err) => {
                 if (err) return next(err);
-                res.redirect('/');
+                return res.redirect('/');
             })
         }
     }
@@ -69,12 +69,17 @@ exports.user_login_post = [
     .trim()
     .isLength({min:1})
     .escape(),
+
     (req, res, next) => {
-      const errors = validationResult(req);
-      
-      if(!errors.isEmpty()){
-        return res.render("login");
-      }
-      next();
+        const errors = validationResult(req);
+        
+    
+        if (!errors.isEmpty()) {
+           return res.render("login");
+            
+        }
+    
+        next();
+    
     },
 ];

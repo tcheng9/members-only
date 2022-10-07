@@ -11,16 +11,17 @@ const Schema = mongoose.Schema
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 const User = require('./models/user');
-const mongoPw = process.env.MONGOPW;
-const mongoDb = "mongodb+srv://tcheng:" + mongoPw + "@cluster0.7kikxjq.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "mongo connection error"));
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+const mongoPw = process.env.MONGOPW;
+const mongoDb = "mongodb+srv://tcheng:" + mongoPw + "@cluster0.7kikxjq.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "mongo connection error"));
 
 //Setting up passport
 passport.use(
@@ -80,6 +81,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -97,9 +103,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.use(function(req, res, next) {
-  res.locals.currentUser = req.user;
-  next();
-});
 
 module.exports = app;
