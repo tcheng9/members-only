@@ -3,7 +3,7 @@ const Post = require('../models/post');
 const {body, validationResult} = require("express-validator");
 const async = require("async");
 const bcrypt = require("bcrypt");
-
+const passport = require('passport');
 //GET request on signup form
 exports.user_signup_get = function(req, res, next){
 
@@ -57,9 +57,16 @@ exports.user_signup_post = [
 
 ]
 
+//Get request for login form
+
+exports.user_login_get = (req, res) => {
+    res.render('login', {title: 'Login', user: res.locals.currentUser});
+}
+
 
 //POST request for login form
 
-exports.user_login_post = [
-    
-]
+exports.user_login_post = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  });
