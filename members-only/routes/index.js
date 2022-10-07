@@ -12,8 +12,8 @@ const User = require('../models/user');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { 
-    title: "Log in Page",
-    user: req.user
+    title: 'Express',
+    user: req.user,
   });
 });
 
@@ -30,9 +30,6 @@ router.get('/login', user_controller.user_login_get);
 
 //POST request for login page
 router.post('/login', user_controller.user_login_post);
-
-
-
 
 //GET request for adding membership status page
 router.get('/membership', function(req, res, next){

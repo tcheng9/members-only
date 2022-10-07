@@ -3,49 +3,7 @@ const Post = require('../models/post');
 const {body, validationResult} = require("express-validator");
 const async = require("async");
 const bcrypt = require("bcrypt");
-const { deleteOne } = require('../models/user');
 const passport = require('passport');
-const LocalStrategy = require("passport-local").Strategy;
-
-
-
-  
-// //GET request on signup form
-// exports.user_signup_get = function(req, res, next){
-//   res.render('index', {user: req.user});
-// }
-exports.user_login_get = (req, res) => {
-    res.render('login', {title: "Login", user: res.locals.currentUser});
-};
-
-
-//POST request for login form
-
-exports.user_login_post = passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-})
-
-// exports.user_login_post = [
-//     body('password', 'password cannot be empty')
-//       .trim()
-//       .isLength({min:1})
-//       .escape(),
-  
-//       (req, res, next) => {
-//           const errors = validationResult(req);
-          
-      
-//           if (!errors.isEmpty()) {
-//              return res.render("login");
-              
-//           }
-      
-//           next();
-      
-//       },
-// ];
-  
 //GET request on signup form
 
 
@@ -95,3 +53,16 @@ exports.user_signup_post = [
 
 ]
 
+//Get request for login form
+
+exports.user_login_get = (req, res) => {
+    res.render('login', {title: 'Login', user: res.locals.currentUser});
+}
+
+
+//POST request for login form
+
+exports.user_login_post = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  });
