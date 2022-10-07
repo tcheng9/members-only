@@ -26,19 +26,11 @@ router.get('/signup', function(req, res,next){
 router.post('/signup', user_controller.user_signup_post);
 
 //GET request for login page
-router.get('/login', function(req, res, next){
-  res.render('login', '');
-});
+router.get('/login', user_controller.user_login_get);
 
 //POST request for login page
 router.post('/login', user_controller.user_login_post);
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
-);
+
 
 
 
