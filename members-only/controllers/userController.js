@@ -66,3 +66,14 @@ exports.user_login_post = passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
   });
+
+
+  //GET request membership signup
+exports.membership_get = (req,res,next) => {
+    res.send("membership get");
+}
+
+  //POST request for mmebership signup
+exports.membership_post = (req, res, next) => {
+    res.send("membership POST");
+}

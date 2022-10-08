@@ -52,6 +52,18 @@ router.get('/logout', (req, res, next) => {
   
 )});
 
+//GET request for creating a post form
+router.get('/createpost', post_controller.form_get);
+
+//POST request for submitting post form
+router.post('/createpost', post_controller.form_post);
+
+//GET request for signing up for membership
+router.get('/membership', user_controller.membership_get);
+
+//POST request for  signing up for membership
+router.post('/membership', user_controller.membership_post);
+
 
 
 module.exports = router;
