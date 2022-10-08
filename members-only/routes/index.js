@@ -41,5 +41,17 @@ router.get('/admin', function(req, res, next){
   res.send("test for admin status page");
 });
 
+//Logout functionality
+router.get('/logout', (req, res, next) => {
+  req.logout(function(err){
+    if(err){
+      return next(err);
+    }
+    res.redirect('/');
+  }
+  
+)});
+
+
 
 module.exports = router;

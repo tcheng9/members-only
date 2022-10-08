@@ -84,7 +84,15 @@ passport.deserializeUser((id, done) =>
 );
 
 //////////////////App session
-app.use(session({ secret: process.env.SESSION, resave: false, saveUninitialized: true }));
+app.use(session({ 
+  secret: process.env.SESSION, 
+  resave: false, 
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 42
+}}));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
