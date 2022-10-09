@@ -10,6 +10,7 @@
 
     <% if (user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
+      <p> <%= user._id %> </p> 
       <br>
       <a href = '/createpost'> Create your own post </a>
       <br>

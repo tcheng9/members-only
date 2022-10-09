@@ -31,10 +31,7 @@ router.get('/login', user_controller.user_login_get);
 //POST request for login page
 router.post('/login', user_controller.user_login_post);
 
-//GET request for adding membership status page
-router.get('/membership', function(req, res, next){
-  res.send("test for membership status sign up page");
-});
+
 
 //GET request for admin status page
 router.get('/admin', function(req, res, next){

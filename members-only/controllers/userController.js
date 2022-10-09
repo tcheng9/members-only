@@ -70,10 +70,34 @@ exports.user_login_post = passport.authenticate("local", {
 
   //GET request membership signup
 exports.membership_get = (req,res,next) => {
-    res.send("membership get");
+    res.render("membership", {title: "Membership page", User: res.locals.currentUser});
 }
 
   //POST request for mmebership signup
-exports.membership_post = (req, res, next) => {
-    res.send("membership POST");
-}
+exports.membership_post = [
+    body('password', 'Password is incorrect')
+        .trim()
+        .isLength({min:1})
+        .escape(),
+    (req, res, next) => {
+        try{
+            const secretPW = "bananas";
+        
+            const currUser = res.locals.currentUser;
+            res.send(currUser._id);
+            const errors = validationResult(req);
+            
+            if (req.body.password == secretPW){
+                // User.findByIdAndUpdate(currUser)
+                
+            } else {
+                res.send('incorrect pw');
+            }
+        } catch (err) {
+            res.send(err);
+        }
+        
+
+
+    }
+]

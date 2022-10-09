@@ -1,8 +1,17 @@
 <h1> Submit Password for Membership </h1>
 
 <form action = "/membership" method = "POST">
+    
     <label for = "password"> Submit Secret Membership Password </label>
+    <br>
     <input type = "text" id = "password" name = "password" required>
-
+    <br>
     <button type = "submit"> Submit Secret Password </button>
+    <br>
+
+    <% if (User) { %>
+        <p> <%= User.username %> </p>
+    <% } else { %> 
+        <p> Not logged in </p>
+    <% } %>
 </form>
