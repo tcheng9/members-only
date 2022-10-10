@@ -4,14 +4,15 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema(
     {
         title: {type: String},
-        timestamp: {type: String},
+        timestamp: {type: Date, default: Date.now},
         text: {type: String},
-        author: {type: String}, //This will be user's username
+        // author: {type: String},
+        user: {type: Schema.Types.ObjectId, ref: "user", required: true}
         
     }
 )
 
-//Virtual property if needed
+//Virtual property if needed                                 
 /*
 //Example
 ClothesTypeSchema.virtual("url").get(function() {

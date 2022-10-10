@@ -2,9 +2,15 @@
 
 <form action = "/createpost" method = "POST">
     <div>
+        <label for = "title"> Post Title </label>
+        <input type = "text" id = "title" name = "title" required> 
+    </div>
+    
+    <div>
         <label for = "body"> Post message </label>
         <input type = "text" id = "body" name = "body" required> 
     </div>
+
 
     <button type = "submit"> Submit Post </button>
 </form>

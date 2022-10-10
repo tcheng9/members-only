@@ -7,15 +7,28 @@ const user_controller = require('../controllers/userController');
 const post_controller = require('../controllers/postController');
 
 const User = require('../models/user');
-
+const Post = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { 
-    title: 'Express',
+  res.render('index', {
+    title: 'Members-only',
     user: req.user,
-     
-  });
+    
+  })
+  // Post.find({})
+  //   .populate("user")
+  //   .exec(function(err, list_posts){
+  //     if(err){
+  //       return next(err);
+  //     }
+
+  //     res.render('index', {
+  //       title: 'Members-only',
+  //       user: req.user,
+  //       posts:list_posts,
+  //     })
+  //   })
 });
 
 // //Solution from someone else: 
@@ -37,7 +50,7 @@ router.get('/', function(req, res, next) {
 //     });
 // });
 
-router.get('/', post_controller.posts_list);
+// router.get('/', post_controller.posts_list);
 
 
 //GET request for sign up page
@@ -83,6 +96,15 @@ router.get('/membership', user_controller.membership_get);
 
 //POST request for  signing up for membership
 router.post('/membership', user_controller.membership_post);
+
+//Form GET
+router.get("/post", post_controller.form_get);
+
+//FORM post
+router.get("/post", post_controller.form_post);
+
+
+
 
 
 
