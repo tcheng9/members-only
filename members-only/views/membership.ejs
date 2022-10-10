@@ -1,4 +1,4 @@
-<h1> Submit Password for Membership </h1>
+<h1> Submit Password for <%= title %>  </h1>
 
 <form action = "/membership" method = "POST">
     
@@ -9,8 +9,10 @@
     <button type = "submit"> Submit Secret Password </button>
     <br>
 
-    <% if (User) { %>
-        <p> <%= User.username %> </p>
+    <% if (user) { %>
+        <p> <%= user.username %> </p>
+        <p> <%= user._id %> </p> 
+        <p> <%= user.membership %> </p>
     <% } else { %> 
         <p> Not logged in </p>
     <% } %>

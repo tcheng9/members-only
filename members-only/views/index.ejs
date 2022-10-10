@@ -11,13 +11,25 @@
     <% if (user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
       <p> <%= user._id %> </p> 
+      <p> <%= user.membership %> </p>
+      
       <br>
       <a href = '/createpost'> Create your own post </a>
       <br>
       <a href = '/membership'> Sign up for membership </a>
+      <br>
     <% } else { %>
       <p>NOT LOGGED IN</p> 
     <% } %>
+
+    <div>
+      <% if (postSubmission) { %>
+          <p> <%= postSubmission.title %> </p> 
+      <% }  else { %> 
+          <p> No post found </p>
+      <% } %> 
+    </div>
+
   </body>
 </html>
 

@@ -14,8 +14,31 @@ router.get('/', function(req, res, next) {
   res.render('index', { 
     title: 'Express',
     user: req.user,
+     
   });
 });
+
+// //Solution from someone else: 
+// /* GET home page. */
+// router.get("/", function (req, res, next) {
+//   Post.find({})
+//     .populate("user")
+//     .exec(function (err, list_posts) {
+//       if (err) {
+//         return next(err);
+//       }
+
+//       // How can I know the username...from the object Id?
+//       res.render("index", {
+//         title: "Members-Only",
+//         user: req.user,
+//         posts: list_posts,
+//       });
+//     });
+// });
+
+router.get('/', post_controller.posts_list);
+
 
 //GET request for sign up page
 router.get('/signup', function(req, res,next){
