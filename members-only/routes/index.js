@@ -7,29 +7,59 @@ const user_controller = require('../controllers/userController');
 const post_controller = require('../controllers/postController');
 
 const User = require('../models/user');
-const Post = require('../models/user');
+const Post = require('../models/post');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {
-    title: 'Members-only',
-    user: req.user,
-    
-  })
-  // Post.find({})
-  //   .populate("user")
-  //   .exec(function(err, list_posts){
-  //     if(err){
-  //       return next(err);
-  //     }
+  Post.find({}, function (err, posts){
+    if(err){
+      res.send('error');
+      next();
+    }
 
-  //     res.render('index', {
-  //       title: 'Members-only',
-  //       user: req.user,
-  //       posts:list_posts,
-  //     })
-  //   })
-});
+     res.render('index', {
+      title: 'Members only', 
+      user: req.user,
+      posts:posts,
+    })
+  })});
+
+// router.get('/', function(req, res, next) {
+//    Post.find({}).then(function (post_list){
+      
+
+//       res.render('index', {
+//         title: 'Members Only', 
+//         user: req.user,
+//         posts:post_list
+//       })
+//    })});
+    // .populate("user")
+    // .exec(function(err, list_posts){
+    //   if(err){
+    //     return next(err);
+    //   }
+
+    //   res.render('index', {
+    //     title: 'Members-only',
+    //     user: req.user,
+    //     posts:list_posts,
+    //   })
+    // })
+
+
+//Working GET home function (backup)
+/* GET home page. */
+// router.get('/', function(req, res, next) {
+//   res.render('index', {
+//     title: 'Members-only',
+//     user: req.user,
+    
+//   })
+// });
+
+
+
 
 // //Solution from someone else: 
 // /* GET home page. */
