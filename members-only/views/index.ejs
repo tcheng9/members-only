@@ -12,6 +12,9 @@
       <h1>WELCOME BACK <%= user.username %></h1>
       <p> <%= user._id %> </p> 
       <p> <%= user.membership %> </p>
+      <div>
+        <p> <%= user.membership ? user.membership: 'no membership' %> </p> 
+      </div>
       
       <br>
       <a href = '/createpost'> Create your own post </a>
@@ -22,12 +25,8 @@
       <p>NOT LOGGED IN</p> 
     <% } %>
 
-    
-    <div>
-      <% for (var post of posts) { %> 
-        <li> <%= post.title %> </li>
-        <% } %>
-
+  
+    <% if (user )
 
     </div>
   </body>
