@@ -44,12 +44,12 @@
             <% posts.forEach(function(post) { %> 
               <p><%= post.title %> </p> 
               <p><%= post.text %> </p>
-              <p><%= post.timestamp %> </p>
+              <p>this is the post's author: <%= post.user.username %> </p>
             <% }); %>
           <%} else { %> 
             <% posts.forEach(function(post) { %> 
-              
-              <p><%= post.text %> </p> 
+              <p><%= post.text %> </p>
+              <!-- <p><%= post.text %> </p>  -->
             <% }); %> 
       
           <% } %>  

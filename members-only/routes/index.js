@@ -27,7 +27,9 @@ const Post = require('../models/post');
 
 
 router.get('/', function(req, res,next){
-  Post.find({}).exec(function(err, posts){
+  Post.find({})
+  .populate("user")
+  .exec(function(err, posts){
     if(err){
       return res.send('error');
     }
