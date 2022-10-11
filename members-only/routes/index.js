@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require("passport");
-
+const async = require('async');
 //Getting model controllers
 const user_controller = require('../controllers/userController');
 const post_controller = require('../controllers/postController');
@@ -10,19 +10,35 @@ const User = require('../models/user');
 const Post = require('../models/post');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  Post.find({}, function (err, posts){
+// router.get('/', async function(req, res, next) {
+//   Post.find({}, function (err, posts){
+//     if(err){
+//       res.send('error');
+//       next();
+//     }
+
+     
+//      res.render('index', {
+//       title: 'Members only', 
+//       user: req.user,
+//       posts: posts,
+//     })
+// })});
+
+
+router.get('/', function(req, res,next){
+  Post.find({}).exec(function(err, posts){
     if(err){
-      res.send('error');
-      next();
+      return res.send('error');
     }
 
-     res.render('index', {
-      title: 'Members only', 
+    res.render('index', {
+      title: 'members only',
       user: req.user,
       posts:posts,
     })
-  })});
+  })
+})
 
 // router.get('/', function(req, res, next) {
 //    Post.find({}).then(function (post_list){

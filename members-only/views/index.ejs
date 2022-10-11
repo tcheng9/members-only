@@ -10,12 +10,12 @@
 
     <% if (user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
-      <p> <%= user._id %> </p> 
-      <p> <%= user.membership %> </p>
+      <!-- <p> <%= user._id %> </p> 
+     
       <div>
         <p> <%= user.membership ? user.membership: 'no membership' %> </p> 
       </div>
-      
+       -->
       <br>
       <a href = '/createpost'> Create your own post </a>
       <br>
@@ -26,9 +26,41 @@
     <% } %>
 
   
-    <% if (user )
+    
 
-    </div>
+    <!-- How to iterate through the Posts obj
+      <% posts.forEach(function(post) { %> 
+        <p><%= post.title %> </p> 
+        <p><%= post.text %> </p> 
+      <% }); %> -->
+
+
+
+
+
+      <div>
+        <% if (user && posts ) { %> 
+          <% if (user.membership == true) { %>
+            <% posts.forEach(function(post) { %> 
+              <p><%= post.title %> </p> 
+              <p><%= post.text %> </p>
+              <p><%= post.timestamp %> </p>
+            <% }); %>
+          <%} else { %> 
+            <% posts.forEach(function(post) { %> 
+              
+              <p><%= post.text %> </p> 
+            <% }); %> 
+      
+          <% } %>  
+        <% } else { %>
+          <p> <%= posts.text ? posts.text: 'no post text or user' %> </p> 
+        <% } %> 
+      </div>
+  
+
+
+
   </body>
 </html>
 
